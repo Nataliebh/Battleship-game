@@ -1,0 +1,23 @@
+<div class="game-container">
+    <h1>{{title}}</h1>
+    <table class="board-wrapper">
+        <thead>
+            <tr>
+                <th></th>
+                <th *ngFor="let letter of letters">{{letter}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="column" *ngFor="let col of board[0]; index as i">
+                <td>{{i+1}}</td>
+                <td class="cell" *ngFor="let row of board; index as j" (click)="clickCell(i,j)"
+                    [ngClass]="{'hit': board[i][j] === 'hit', 'miss' :  board[i][j] === 'miss' }">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="gameOver">
+        <p>You won!!!!</p>
+        <button (click)="startGame()">Restart Game</button>
+    </div>
+</div>
