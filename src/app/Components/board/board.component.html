@@ -11,7 +11,7 @@
             <tr class="column" *ngFor="let col of board[0]; index as i">
                 <td>{{i+1}}</td>
                 <td class="cell" *ngFor="let row of board; index as j" (click)="clickCell(i,j)"
-                    [ngClass]="{'hit': board[i][j] === 'hit', 'miss' :  board[i][j] === 'miss' }">
+                    [ngClass]="{'hit': board[i][j] === 'hit', 'miss' :  board[i][j] === 'miss', 'game-over':gameOver }">
                 </td>
             </tr>
         </tbody>

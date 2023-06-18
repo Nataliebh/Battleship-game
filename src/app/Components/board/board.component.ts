@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BoardComponent implements OnInit {
   title = 'Battleship Game';
-  board: (number | string)[][] = [];   //????????????????????????????
+  board: (number | string)[][] = []; 
   boardSize: number = 10;
   ships: number = 10;
   letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
@@ -63,28 +63,13 @@ export class BoardComponent implements OnInit {
         this.board[i][j] = 'miss';
       }
     }
-
   }
-
+  
   // after hitting a ship, checking if the game is over
   checkGameOver() {
     if (this.hitCounter === this.ships) {
       this.gameOver = true;
     }
   }
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
