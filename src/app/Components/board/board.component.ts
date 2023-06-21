@@ -110,9 +110,8 @@ export class BoardComponent implements OnInit {
         this.board[i][j] = 'miss';
       }
     }
-
   }
-
+  
   // after hitting a ship, checking if the game is over
   checkGameOver() {
     if (this.hitCounter === this.sumArrayShips) {
