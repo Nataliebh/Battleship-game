@@ -2,54 +2,106 @@
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
 
+    @media (max-width:600px) {
+        overflow-x: scroll;
+    }
+
     h1 {
         margin-top: 50px;
+
+        @media (max-width:600px) {
+            margin-top: 30px;
+        }
     }
 
     .board-wrapper {
+        border-collapse: separate;
+        border-spacing: 3px;
         margin: auto;
-        
-        .cell {
-            width: 50px;
-            height: 50px;
-            background-color: #719894;
-            margin: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            
-            &:hover {
-                background-color: rgb(113, 152, 148, 0.7);
-                
-            }
-            
-            &.miss {
-                background-color: green;
-            }
-            
-            &.hit {
-                background-color: red;
+        table-layout: fixed;
+
+        @media (max-width:600px) {
+            margin: 0 8px;
+            overflow-x: scroll;
+
+        }
+
+        .column {
+            .cell {
+                width: 50px;
+                height: 50px;
+                font-weight: bold;
+                background-color: #719894;
+                // margin: 5px;
+                border-radius: 5px;
+                cursor: pointer;
+                box-sizing: border-box;
+                border: 3px solid transparent;
+
+                @media (max-width:600px) {
+                    width: 42px;
+                    height: 42px;
+                    min-width: 42px;
+                    min-height: 42px;
+                }
+
+                &:hover {
+                    background-color: rgb(113, 152, 148, 0.7);
+                }
+
+                &.miss {
+                    background-color: green;
+                }
+
+                &.hit {
+                    background-color: red;
+                    border-inline-start: 3px solid transparent;
+                }
+
+                &.game-over {
+                    background-color: rgb(27, 27, 170);
+                    border-inline-start: 3px solid transparent;
+                }
+
+                &.ship {
+                    border-inline-start: 3px solid transparent;
+                    border-top: 3px solid #000;
+                    border-bottom: 3px solid #000;
+
+                    &-start {
+                        border-inline-start: 3px solid #000;
+                    }
+
+                    &-end {
+                        border-inline-end: 3px solid #000;
+                    }
+
+                    &-one {
+                        border-inline-start: 3px solid #000;
+                        border-inline-end: 3px solid #000;
+                    }
+                }
             }
         }
     }
-        
-        p {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        
-        button {
-            background-color: #FF9569;
-            font-size: 16px;
-            border-radius: 5px;
+
+    p {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    button {
+        background-color: #FF9569;
+        font-size: 16px;
+        border-radius: 5px;
         border: 1px solid rgb(173, 170, 170);
         cursor: pointer;
-        height:40px;
-        width:150px;
+        height: 40px;
+        width: 150px;
         font-weight: bold;
 
         &:hover {
             background-color: #719894;
         }
-
     }
 }
