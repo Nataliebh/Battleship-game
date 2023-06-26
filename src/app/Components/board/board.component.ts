@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener} from '@angular/core';
 
 @Component({
   selector: 'app-board',
@@ -7,19 +7,61 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BoardComponent implements OnInit {
   title = 'Battleship Game';
-  board: (string)[][] = []; 
+  board: (any)[][] = [];
   boardSize: number = 10;
   ships: number = 10;
   letters: Array<string> = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
   gameOver: boolean = false;
   hitCounter: number = 0;
-  shipsArray: Array<number> = [5, 5, 4, 4, 3, 3, 2, 2, 1, 1];
-  shipsLocationArray: Array<any> = [];
+  shipsArray: Array<number> = [];
   isCellEmpty: boolean = false;
   sumArrayShips: number = 0;
+  row: number = 0;
+  col: number = 0;
 
   ngOnInit() {
     this.startGame();
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    this.board[this.row][this.col].hover = false;
+    this.board[this.row][this.col];
+    if (event.key == 'ArrowDown') {
+      if (this.row === this.boardSize - 1) {
+        this.row = 0;
+      } else {
+        this.row++;
+      }
+      this.board[this.row][this.col].hover = true;
+    }
+    if (event.key == 'ArrowUp') {
+      if (this.row === 0) {
+        this.row = this.boardSize - 1;
+      } else {
+        this.row--;
+      }
+      this.board[this.row][this.col].hover = true;
+    }
+    if (event.key == 'ArrowRight') {
+      if (this.col === this.boardSize - 1) {
+        this.col = 0;
+      } else {
+        this.col++;
+      }
+      this.board[this.row][this.col].hover = true;
+    }
+    if (event.key == 'ArrowLeft') {
+      if (this.col === 0) {
+        this.col = this.boardSize - 1;
+      } else {
+        this.col--;
+      }
+      this.board[this.row][this.col].hover = true;
+    }
+    if (event.key == 'Enter') {
+      this.clickCell(this.row, this.col);
+    }
   }
 
   // Building the board
@@ -27,18 +69,30 @@ export class BoardComponent implements OnInit {
     this.board = [];
     this.gameOver = false;
     this.hitCounter = 0;
+
+    this.addRandomShipsArray();
+
     for (let i = 0; i < this.boardSize; i++) {
-      let row: (string)[] = [];
+      let row: (object)[] = [];
       for (let j = 0; j < this.boardSize; j++) {
-        row.push("");
+        row[j] = { used: false, value: 0, status: '', hover: false, shipBorderLocation: '' };
       }
       this.board.push(row);
+
     }
     // count ship cells
     this.sumArrayShips = this.shipsArray.reduce((accumulator, currentValue) => {
       return accumulator + currentValue;
     }, 0);
     this.findRandomDots();
+  }
+
+  addRandomShipsArray() {
+    for (let i = 0; i < this.ships; i++) {
+      let randShip = Math.floor(Math.random() * 5) + 1;
+      this.shipsArray.push(randShip);
+    }
+    return this.shipsArray;
   }
 
   //  Placing the ships randomly on the board
@@ -58,7 +112,7 @@ export class BoardComponent implements OnInit {
 
   checkEmptyCell(row: number, validColStart: number, ship: number) {
     for (let i = 0; i < ship; i++) {
-      if (this.board[row][validColStart + i].includes('ship')) {
+      if (this.board[row][validColStart + i].value === 1) {
         this.isCellEmpty = false;
       }
     }
@@ -74,16 +128,19 @@ export class BoardComponent implements OnInit {
   placeOneShip(row: number, validColStart: number, ship: number) {
     // adding ship
     for (let i = 0; i < ship; i++) {
-      this.board[row][validColStart + i] = 'ship';
+      this.board[row][validColStart + i].value = 1;
 
-      // adding classes for different border:
-      if (i === 0 || ship === 1) {
-        this.board[row][validColStart + i] = 'ship ship-start';
-      } else if (i === ship - 1) {
-        this.board[row][validColStart + i] = 'ship ship-end';
-      }
+      // adding different border:
       if (ship === 1) {
-        this.board[row][validColStart + i] = 'ship ship-one';
+        this.board[row][validColStart + i].shipBorderLocation = 'oneShip';
+      } else {
+        if (i === 0) {
+          this.board[row][validColStart + i].shipBorderLocation = 'start';
+        }
+        if (i === ship - 1) {
+          this.board[row][validColStart + i].shipBorderLocation = 'end';
+
+        }
       }
     }
     // remove ship from shipsArray after placing it on board
@@ -97,26 +154,26 @@ export class BoardComponent implements OnInit {
   // clicking on cell
   clickCell(i: number, j: number) {
     // checking the game is not over and cell isnt clicked
-    if (this.gameOver || this.board[i][j] === 'hit' || this.board[i][j] === 'miss') {
+    if (this.gameOver || this.board[i][j].used === true) {
       return;
     }
     // checking if cell is with ship
     if (!this.gameOver) {
-      if (this.board[i][j].includes("ship")) {
-        this.board[i][j] = 'hit';
+      this.board[i][j].used = true;
+      if (this.board[i][j].value === 1) {
+        this.board[i][j].status = 'hit';
         this.hitCounter++;
         this.checkGameOver();
       } else {
-        this.board[i][j] = 'miss';
+        this.board[i][j].status = 'miss';
       }
     }
   }
-  
+
   // after hitting a ship, checking if the game is over
   checkGameOver() {
     if (this.hitCounter === this.sumArrayShips) {
       this.gameOver = true;
     }
   }
-
 }
