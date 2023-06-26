@@ -11,8 +11,18 @@
             <tr class="column" *ngFor="let col of board[0]; index as i">
                 <th>{{i+1}}</th>
                 <td class="cell" *ngFor="let row of board; index as j" (click)="clickCell(i,j)"
-                    [ngClass]="{'ship' :  board[i][j].includes('ship') ,'hit': board[i][j] === 'hit', 'miss' :  board[i][j] === 'miss', 'ship-start': board[i][j].includes('ship-start'),'ship-end': board[i][j].includes('ship-end'),'ship-one': board[i][j].includes('ship-one'), 'game-over':gameOver }">
-                    <span *ngIf="board[i][j].includes('ship') || board[i][j].includes('hit')">ship</span>
+                    [ngClass]="{
+                    'ship': board[i][j].value===1,
+                    'hit':board[i][j].status == 'hit',
+                    'miss':board[i][j].status == 'miss',
+                    'hover':board[i][j].hover == true,
+                    'game-over':gameOver,
+                }" [ngStyle]="{
+                    border: board[i][j].shipBorderLocation==='oneShip'? '3px solid #000':'',
+                    borderInlineStart: board[i][j].shipBorderLocation==='start'? '3px solid #000':'',
+                    borderInlineEnd: board[i][j].shipBorderLocation==='end'? '3px solid #000':'',
+                }">
+                    <span *ngIf="board[i][j].value===1">ship</span>
                 </td>
             </tr>
         </tbody>
