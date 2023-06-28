@@ -1,4 +1,6 @@
 .game-container {
+    max-width: 1100px;
+    margin: auto;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
 
@@ -14,6 +16,14 @@
         }
     }
 
+    .game-explanation{
+        margin: 30px 0;
+        padding:15px 20px;
+        font-size: 17px;
+        border-radius: 10px;
+        background-color: #d7d7d7;
+        border:1px solid #ccc;
+    }
     .board-wrapper {
         border-collapse: separate;
         border-spacing: 3px;
@@ -81,7 +91,7 @@
         }
     }
 
-    p {
+    .winning-text {
         font-size: 20px;
         font-weight: bold;
     }

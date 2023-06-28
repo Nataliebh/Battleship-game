@@ -1,8 +1,10 @@
 <div class="game-container">
     <h1>{{title}}</h1>
-    <table class="board-wrapper" summary="In the Battleship game with 10 ships, player can navigate the game's grid using arrow keys to move across the board and choose ship placements. 
-    By pressing the enter button, players can select their desired ship. hitting a ship means you've found one, while missing means you haven't. 
-    Win by discovering and sinking all the ships on the board.">
+    <p class="game-explanation">In the Battleship game with 10 ships, you can navigate the game's grid using arrow keys to move across the board and choose ship placements. 
+        By pressing the enter button, you can select the cell. Hitting a ship means you've found one, while missing means you haven't. 
+        Win by discovering and sinking all the ships on the board.</p>
+    <table class="board-wrapper" 
+    >
         <thead>
             <tr>
                 <th></th>
@@ -34,7 +36,7 @@
         </tbody>
     </table>
     <div *ngIf="gameOver">
-        <p>You won!!!!</p>
+        <p class="winning-text">You won!!!!</p>
         <!-- <button class="restartBtn" (click)="startGame()">Restart Game</button> -->
     </div>
 </div>
