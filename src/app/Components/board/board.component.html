@@ -1,34 +1,40 @@
 <div class="game-container">
     <h1>{{title}}</h1>
-    <table class="board-wrapper">
+    <table class="board-wrapper" summary="In the Battleship game with 10 ships, player can navigate the game's grid using arrow keys to move across the board and choose ship placements. 
+    By pressing the enter button, players can select their desired ship. hitting a ship means you've found one, while missing means you haven't. 
+    Win by discovering and sinking all the ships on the board.">
         <thead>
             <tr>
                 <th></th>
-                <th *ngFor="let letter of letters">{{letter}}</th>
+                <th *ngFor="let letter of letters" scope="col">{{letter}}</th>
             </tr>
         </thead>
         <tbody>
             <tr class="column" *ngFor="let col of board[0]; index as i">
-                <th>{{i+1}}</th>
-                <td class="cell" *ngFor="let row of board; index as j" (click)="clickCell(i,j)"
-                    [ngClass]="{
+                <th scope="row">{{i+1}}</th>
+                <td class="cell" *ngFor="let row of board; index as j" (click)="clickCell(i,j)" 
+
+                [ngClass]="{
                     'ship': board[i][j].value===1,
                     'hit':board[i][j].status == 'hit',
                     'miss':board[i][j].status == 'miss',
                     'hover':board[i][j].hover == true,
                     'game-over':gameOver,
+                    'clicked':board[i][j].used      
                 }" [ngStyle]="{
                     border: board[i][j].shipBorderLocation==='oneShip'? '3px solid #000':'',
                     borderInlineStart: board[i][j].shipBorderLocation==='start'? '3px solid #000':'',
                     borderInlineEnd: board[i][j].shipBorderLocation==='end'? '3px solid #000':'',
                 }">
-                    <span *ngIf="board[i][j].value===1">ship</span>
+                <button>
+                    <span>{{board[i][j].value===1 ? "ship" : "miss"}}</span>
+                </button>
                 </td>
             </tr>
         </tbody>
     </table>
     <div *ngIf="gameOver">
         <p>You won!!!!</p>
-        <!-- <button (click)="startGame()">Restart Game</button> -->
+        <!-- <button class="restartBtn" (click)="startGame()">Restart Game</button> -->
     </div>
 </div>

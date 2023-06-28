@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener} from '@angular/core';
+import { Component, OnInit, HostListener, ViewRef, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-board',
@@ -23,11 +23,22 @@ export class BoardComponent implements OnInit {
     this.startGame();
   }
 
+  // play using a Keyboard handling: 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     this.board[this.row][this.col].hover = false;
     this.board[this.row][this.col];
-    if (event.key == 'ArrowDown') {
+
+    if (event.key === 'ShiftLeft') {
+      if (this.col === 0) {
+        this.col = this.boardSize - 1;
+        this.row--;
+      } else {
+        this.col--;
+      }
+    
+    }
+    if (event.key === 'ArrowDown') {
       if (this.row === this.boardSize - 1) {
         this.row = 0;
       } else {
@@ -43,7 +54,7 @@ export class BoardComponent implements OnInit {
       }
       this.board[this.row][this.col].hover = true;
     }
-    if (event.key == 'ArrowRight') {
+    if (event.key === 'ArrowRight') {
       if (this.col === this.boardSize - 1) {
         this.col = 0;
       } else {
@@ -96,7 +107,6 @@ export class BoardComponent implements OnInit {
   }
 
   //  Placing the ships randomly on the board
-  // placeShips() {
   findRandomDots() {
     let randomStartIndex = Math.floor(Math.random() * this.boardSize);
     this.shipsArray.forEach((ship) => {
